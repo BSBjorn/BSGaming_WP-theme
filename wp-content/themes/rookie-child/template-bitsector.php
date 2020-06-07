@@ -29,6 +29,9 @@ $user = wp_get_current_user();
 
 get_header(); ?>
 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
             <h1>Velkommen <?php echo $nick ?></h1>
@@ -50,10 +53,10 @@ get_header(); ?>
 			</ul>
 
 		<?php } ?>
+
 		</main><!-- #main -->
 	</div><!-- #primary -->
-<script>
 
-</script>
+
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
