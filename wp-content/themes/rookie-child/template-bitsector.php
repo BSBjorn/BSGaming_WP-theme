@@ -31,7 +31,6 @@ get_header(); ?>
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
-
             <h1>Velkommen <?php echo $nick ?></h1>
 			<?php if($steamid) { ?>
 			<img src="<?php echo $avatar ?>" alt="">
@@ -40,13 +39,15 @@ get_header(); ?>
 			<h2>andre brukere som er online</h2>
 			<ul>
 			<?php foreach($aUsers as $aUser) {
-				$userMeta = get_user_meta($aUser->ID);
-				if(isset($userMeta["steam_steamid"])) {
-					echo '<li>' . $userMeta["nickname"][0] . '</li>';
+				$aUid = $aUser->ID;
+				$userMeta = get_user_meta($aUid);
+				$lastOnline = date( 'd/m/y H:i:s', gearside_user_last_online($aUid));
+				if(isset($userMeta["steam_steamid"]) and gearside_is_user_online($aUid)) {
+					echo '<li>' . $userMeta["nickname"][0] . ' online since: ' . $lastOnline . '</li>';
 				}
 			} ?>
 
-		</ul>
+			</ul>
 
 		<?php } ?>
 		</main><!-- #main -->
