@@ -7,26 +7,38 @@
  * @package Rookie
  */
 
-wp_enqueue_script("jquery");
 
 $steamid = null;
 $nick = null;
 $avatar = null;
+$onlineUsers = [];
 
 $user = wp_get_current_user();
-	if ( $user->exists() ) { // is_user_logged_in() is a wrapper for this line
-		$userdata = get_user_meta( $user->data->ID );
-		if ( isset($userdata["steam_steamid"]) ) {
-			$steamid = $userdata["steam_steamid"][0];
-			$nick = $userdata["nickname"][0];
-			$avatar = $userdata["steam_wp_avatar"][0];
-		}
-	}
 
-	$aUsers = get_users([
-		'meta_key' => 'session_tokens',
-		'meta_compare' => 'EXISTS'
-	]);
+if ( $user->exists() ) { // is_user_logged_in() is a wrapper for this line
+	$userdata = get_user_meta( $user->data->ID );
+	if ( isset($userdata["steam_steamid"]) ) {
+		$steamid = $userdata["steam_steamid"][0];
+		$nick = $userdata["nickname"][0];
+		$avatar = $userdata["steam_wp_avatar"][0];
+	}
+}
+
+$aUsers = get_users([
+	'meta_key' => 'session_tokens',
+	'meta_compare' => 'EXISTS'
+]);
+
+foreach($aUsers as $aUser) {
+	$aUid = $aUser->ID;
+	$userMeta = get_user_meta($aUid);
+	$lastOnline = date( 'd/m/y H:i:s', gearside_user_last_online($aUid));
+	if(isset($userMeta["steam_steamid"]) and gearside_is_user_online($aUid)) {
+		// echo '<li>' . $userMeta["nickname"][0] . ' online since: ' . $lastOnline . '</li>';
+		array_push($onlineUsers, $userMeta);
+	}
+}
+
 
 get_header(); ?>
 
@@ -39,28 +51,15 @@ get_header(); ?>
 			<?php if($steamid) { ?>
 			<img src="<?php echo $avatar ?>" alt="">
 			<p>Din steamID er: <?php echo convertSteamID($steamid) ?></p>
-			
+			<?php } ?>
 			<h2>andre brukere som er online</h2>
-			<ul>
-			<?php foreach($aUsers as $aUser) {
-				$aUid = $aUser->ID;
-				$userMeta = get_user_meta($aUid);
-				$lastOnline = date( 'd/m/y H:i:s', gearside_user_last_online($aUid));
-				if(isset($userMeta["steam_steamid"]) and gearside_is_user_online($aUid)) {
-					echo '<li>' . $userMeta["nickname"][0] . ' online since: ' . $lastOnline . '</li>';
-				}
-			} ?>
 
-			</ul>
-
-		<?php } ?>
 
 		<div id="app">
-			{{ message }}
-
-			<div v-for="user in users">
-				{{user.data.ID}}
-			</div>
+			{{ message }}	
+			<ul v-for="user,i in users">
+				<li v-if="">{{i}} {{user.nickname}}</li>
+			</ul>
 		</div>
 		</main><!-- #main -->
 	</div><!-- #primary -->
@@ -70,7 +69,7 @@ get_header(); ?>
 			el: '#app',
 			data: {
 				message: 'Hello Vue!',
-				users: <?php echo json_encode($aUsers); ?>
+				users: <?php echo json_encode($onlineUsers); ?>
 				
  			}
 		})
@@ -79,4 +78,3 @@ get_header(); ?>
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
-
