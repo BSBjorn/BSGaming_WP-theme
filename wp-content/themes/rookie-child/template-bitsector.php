@@ -56,10 +56,9 @@ get_header(); ?>
 
 
 		<div id="app">
-			{{ message }}
-
-			<ul v-for="user in users">
-				<li>{{user.nickname}}</li>
+			{{ message }}	
+			<ul v-for="user,i in users">
+				<li v-if="">{{i}} {{user.nickname}}</li>
 			</ul>
 		</div>
 		</main><!-- #main -->
