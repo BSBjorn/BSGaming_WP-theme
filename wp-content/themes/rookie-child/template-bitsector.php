@@ -44,10 +44,9 @@ get_header(); ?>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-<pre>
-<?php
-	var_dump($onlineUsers); ?>
-</pre>
+<!-- <pre>
+<?php var_dump($onlineUsers); ?>
+</pre> -->
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
@@ -62,7 +61,7 @@ get_header(); ?>
 		<div id="app">
 			{{ message }}	
 			<ul v-for="user,i in users">
-				<li v-if="">{{i}} {{user.nickname}}</li>
+				<li v-if="">{{user.nickname}}</li>
 			</ul>
 		</div>
 		</main><!-- #main -->
@@ -74,7 +73,7 @@ get_header(); ?>
 			data: {
 				message: 'Hello Vue!',
 				users: <?php echo json_encode($onlineUsers); ?>
-				
+
  			}
 		})
 	</script>
