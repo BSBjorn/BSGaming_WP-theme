@@ -6,6 +6,7 @@
  *
  * @package Rookie
  */
+
 wp_enqueue_script("jquery");
 
 $steamid = null;
@@ -29,15 +30,15 @@ $user = wp_get_current_user();
 
 get_header(); ?>
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
             <h1>Velkommen <?php echo $nick ?></h1>
 			<?php if($steamid) { ?>
 			<img src="<?php echo $avatar ?>" alt="">
-			<p>Din steamID er: <?php echo $steamid ?></p>
+			<p>Din steamID er: <?php echo convertSteamID($steamid) ?></p>
 			
 			<h2>andre brukere som er online</h2>
 			<ul>
@@ -54,9 +55,28 @@ get_header(); ?>
 
 		<?php } ?>
 
+		<div id="app">
+			{{ message }}
+
+			<div v-for="user in users">
+				{{user.data.ID}}
+			</div>
+		</div>
 		</main><!-- #main -->
 	</div><!-- #primary -->
+
+	<script>
+		var app = new Vue({
+			el: '#app',
+			data: {
+				message: 'Hello Vue!',
+				users: <?php echo json_encode($aUsers); ?>
+				
+ 			}
+		})
+	</script>
 
 
 <?php get_sidebar(); ?>
 <?php get_footer(); ?>
+
