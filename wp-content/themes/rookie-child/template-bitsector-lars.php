@@ -35,7 +35,7 @@ get_header(); ?>
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
-            <h1>Velkommen Lars <?php echo $nick ?></h1>
+            <h1>Welcome <?php echo $nick ?></h1>
 			<?php if($steamid) { ?>
 			<img src="<?php echo $avatar ?>" alt="">
 			<p>Din steamID er: <?php echo convertSteamID($steamid) ?></p>
@@ -68,7 +68,7 @@ get_header(); ?>
 		var app = new Vue({
 			el: '#app',
 			data: {
-				message: 'Hello Vue!',
+				message: 'Hello Vue2!',
 				users: <?php echo json_encode($aUsers); ?>
  			}
 		})
