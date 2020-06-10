@@ -34,7 +34,6 @@ foreach($aUsers as $aUser) {
 	$userMeta = get_user_meta($aUid);
 	$lastOnline = date( 'd/m/y H:i:s', gearside_user_last_online($aUid));
 	if(isset($userMeta["steam_steamid"]) and gearside_is_user_online($aUid)) {
-		// echo '<li>' . $userMeta["nickname"][0] . ' online since: ' . $lastOnline . '</li>';
 		array_push($onlineUsers, $userMeta);
 	}
 }
@@ -44,6 +43,11 @@ get_header(); ?>
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<pre>
+<?php
+	var_dump($onlineUsers); ?>
+</pre>
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
