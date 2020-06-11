@@ -59,10 +59,17 @@ get_header(); ?>
 
 
 		<div id="app">
-			{{ message }}	
-			<ul v-for="user,i in users">
-				<li v-if="">{{user.nickname}}</li>
+			<h3>Team 1</h3>
+			<ul v-for="player in team1">
+				<li>{{player.nickname}}</li>
 			</ul>
+			
+			<h3>Team 2</h3>
+			<ul v-for="player in team2">
+				<li>{{player.nickname}}</li>
+			</ul>
+
+			<button @click="shuffle(players)">Shuffle</button>
 		</div>
 		</main><!-- #main -->
 	</div><!-- #primary -->
@@ -72,9 +79,59 @@ get_header(); ?>
 			el: '#app',
 			data: {
 				message: 'Hello Vue!',
-				users: <?php echo json_encode($onlineUsers); ?>
+				users: <?php echo json_encode($onlineUsers); ?>,
+				players: [
+					{nickname: "B-King", steamid: 123456, number: 1},
+					{nickname: "chessome", steamid: 123454, number: 2},
+					{nickname: "Turtlefly_", steamid: 123426, number: 3},
+					{nickname: "Niso", steamid: 644456, number: 4},
+					{nickname: "Mayhem", steamid: 773532, number: 5},
+					{nickname: "Regn", steamid: 073532, number: 6},
+					{nickname: "Nilsen", steamid: 573532, number: 7},
+					{nickname: "Molle2k", steamid: 732532, number: 8},
+					{nickname: "TheBait", steamid: 986441, number: 9},
+					{nickname: "DMK", steamid: 173532, number: 10},
+					{nickname: "Halio", steamid: 986441, number: 11},
+				],
+				team1: [],
+				team2: []
+			 },
+			mounted: function() {
+				this.placeInTeams();
+			},
+			methods: {
+				placeInTeams: function() {
+					this.team1 = [];
+					this.team2 = [];
+					this.players.forEach((value, index) => {
+					if (index <= 4 ) {
+						this.team1.push(value);
+					} else if ( index > 4 && index <= 9 ) {
+						this.team2.push(value);
+					}
+				});
+				},
 
- 			}
+				shuffle: function(array) {
+					var currentIndex = array.length, temporaryValue, randomIndex;
+
+					// While there remain elements to shuffle...
+					while (0 !== currentIndex) {
+
+						// Pick a remaining element...
+						randomIndex = Math.floor(Math.random() * currentIndex);
+						currentIndex -= 1;
+
+						// And swap it with the current element.
+						temporaryValue = array[currentIndex];
+						array[currentIndex] = array[randomIndex];
+						array[randomIndex] = temporaryValue;
+					}
+					this.placeInTeams();
+					return array;
+
+				}
+			 }
 		})
 	</script>
 
