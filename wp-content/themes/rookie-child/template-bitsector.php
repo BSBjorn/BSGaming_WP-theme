@@ -37,40 +37,65 @@ foreach($aUsers as $aUser) {
 		array_push($onlineUsers, $userMeta);
 	}
 }
-
-
 get_header(); ?>
 
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<!-- <pre>
-<?php var_dump($onlineUsers); ?>
-</pre> -->
 
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
-            <h1>Velkommen <?php echo $nick ?></h1>
-			<?php if($steamid) { ?>
-			<img src="<?php echo $avatar ?>" alt="">
-			<p>Din steamID er: <?php echo convertSteamID($steamid) ?></p>
-			<?php } ?>
-			<h2>andre brukere som er online</h2>
-
-
 		<div id="app">
-			<h3>Team 1</h3>
-			<ul v-for="player in team1">
-				<li>{{player.nickname}}</li>
-			</ul>
-			
-			<h3>Team 2</h3>
-			<ul v-for="player in team2">
-				<li>{{player.nickname}}</li>
-			</ul>
+            <div class="columns">
+				<div class="column">
+					<h1 class="mb-4 is-size-3">SCRIM</h1>
+					<p for="mapPick">Please choose a map:</p>
+					<div class="field">
+						<div class="controll">
+							<div class="select is-primary">
+							<select name="mapPick" id="mapPick" v-model="mapPick"> 
+								<option v-for="map in maps" v-bind:value="map">{{map}}</option>
+							</select>
+							</div>
+						</div>
+					</div>
+					
+					<button class="my-4 mr-2" v-if="lockTeams == false" @click="shuffle(players)">Shuffle</button>
+					<button class="my-4 mr-2" @click="lockTeams = true">Lock Teams</button>
 
-			<button @click="shuffle(players)">Shuffle</button>
+				</div>
+				<div class="column">
+					<h2 class="is-size-4">Velkommen <?php echo $nick ?></h2>
+					<?php if($steamid) { ?>
+					<img src="<?php echo $avatar ?>" alt="">
+					<p>Din steamID er: <?php echo convertSteamID($steamid) ?></p>
+					<?php } ?>
+				</div>
+			</div>
+		
+		<div class="columns">
+			<div class="column">
+				<h4 class="is-size-5 mb-2">Team {{captain1}}</h4>
+				<ul v-for="player in team1">
+					<li :class="{captain: player.nickname == captain1}">{{player.nickname}}</li>
+				</ul>
+			</div>
+
+			<div class="column">
+				<h4 class="is-size-5 mb-2">Team {{captain2}}</h4>
+				<ul v-for="player in team2">
+					<li>{{player.nickname}}</li>
+				</ul>
+			</div>	
 		</div>
+		
+		<div class="columns">
+			<div class="column">
+				
+			</div>
+		</div>
+		
+		<h5>Map will be <span class="has-text-primary">{{mapPick}}</span></h5>
+		</div><!-- #app -->
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
@@ -93,8 +118,15 @@ get_header(); ?>
 					{nickname: "DMK", steamid: 173532, number: 10},
 					{nickname: "Halio", steamid: 986441, number: 11},
 				],
+				lockTeams: false,
 				team1: [],
-				team2: []
+				team2: [],
+				captain1: '',
+				captain2: '',
+				mapPick: " ... ",
+				maps: [
+					"dust","inferno","cache","mirage","vertigo"
+				],
 			 },
 			mounted: function() {
 				this.placeInTeams();
@@ -104,12 +136,14 @@ get_header(); ?>
 					this.team1 = [];
 					this.team2 = [];
 					this.players.forEach((value, index) => {
-					if (index <= 4 ) {
-						this.team1.push(value);
-					} else if ( index > 4 && index <= 9 ) {
-						this.team2.push(value);
-					}
-				});
+						if (index <= 4 ) {
+							this.team1.push(value);
+						} else if ( index > 4 && index <= 9 ) {
+							this.team2.push(value);
+						}
+					});
+					this.captain1 = this.players[0].nickname;
+					this.captain2 = this.players[5].nickname;
 				},
 
 				shuffle: function(array) {
