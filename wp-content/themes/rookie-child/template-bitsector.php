@@ -60,7 +60,8 @@ get_header(); ?>
 					</div>
 					
 					<button class="my-4 mr-2" v-if="lockTeams == false" @click="shuffle(players)">Shuffle</button>
-					<button class="my-4 mr-2" @click="lockTeams = true">Lock Teams</button>
+					<button v-if="lockTeams == false" class="my-4 mr-2" @click="lockTeams = !lockTeams">Lock Teams</button>
+					<button v-else class="my-4 mr-2" @click="lockTeams = !lockTeams">Unlock Teams</button>
 
 				</div>
 				<div class="column">
