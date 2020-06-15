@@ -86,6 +86,7 @@ get_header(); ?>
 					<div class="controll">
 						<div class="select is-primary">
 						<select name="mapPick" id="mapPick" v-model="mapPick"> 
+							<option value="">....</option>
 							<option v-for="map in maps" v-bind:value="map">{{map}}</option>
 						</select>
 						</div>
@@ -93,11 +94,11 @@ get_header(); ?>
 				</div>
 			</div>
 			<div class="column" v-if="mapPick">
-				<button>Start Server</button>
+				<h5>Map will be <span class="has-text-primary">{{mapPick}}</span></h5>
+				<button class="my-2">Start Server</button>
 			</div>
 		</div>
 		
-		<h5>Map will be <span class="has-text-primary">{{mapPick}}</span></h5>
 		</div><!-- #app -->
 		</main><!-- #main -->
 	</div><!-- #primary -->
