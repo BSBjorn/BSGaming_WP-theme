@@ -47,17 +47,7 @@ get_header(); ?>
 		<div id="app">
             <div class="columns">
 				<div class="column">
-					<h1 class="mb-4 is-size-3">SCRIM</h1>
-					<p for="mapPick">Please choose a map:</p>
-					<div class="field">
-						<div class="controll">
-							<div class="select is-primary">
-							<select name="mapPick" id="mapPick" v-model="mapPick"> 
-								<option v-for="map in maps" v-bind:value="map">{{map}}</option>
-							</select>
-							</div>
-						</div>
-					</div>
+					<h1 class="mb-4 is-size-3">SCRIM 5V5</h1>
 					
 					<button class="my-4 mr-2" v-if="lockTeams == false" @click="shuffle(players)">Shuffle</button>
 					<button v-if="lockTeams == false" class="my-4 mr-2" @click="lockTeams = !lockTeams">Lock Teams</button>
@@ -90,8 +80,20 @@ get_header(); ?>
 		</div>
 		
 		<div class="columns">
-			<div class="column">
-				
+			<div v-if="lockTeams == true" class="column">
+				<p for="mapPick">Please choose a map:</p>
+				<div class="field">
+					<div class="controll">
+						<div class="select is-primary">
+						<select name="mapPick" id="mapPick" v-model="mapPick"> 
+							<option v-for="map in maps" v-bind:value="map">{{map}}</option>
+						</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column" v-if="mapPick">
+				<button>Start Server</button>
 			</div>
 		</div>
 		
@@ -100,36 +102,45 @@ get_header(); ?>
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
-	<script>
+
+
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>	
+
+<script>
+
+//import from config/chess.json
 		var app = new Vue({
 			el: '#app',
 			data: {
 				message: 'Hello Vue!',
 				users: <?php echo json_encode($onlineUsers); ?>,
 				players: [
-					{nickname: "B-King", steamid: 123456, number: 1},
-					{nickname: "chessome", steamid: 123454, number: 2},
-					{nickname: "Turtlefly_", steamid: 123426, number: 3},
-					{nickname: "Niso", steamid: 644456, number: 4},
-					{nickname: "Mayhem", steamid: 773532, number: 5},
-					{nickname: "Regn", steamid: 073532, number: 6},
-					{nickname: "Nilsen", steamid: 573532, number: 7},
-					{nickname: "Molle2k", steamid: 732532, number: 8},
-					{nickname: "TheBait", steamid: 986441, number: 9},
-					{nickname: "DMK", steamid: 173532, number: 10},
-					{nickname: "Halio", steamid: 986441, number: 11},
+					{nickname: "B-King", steamid: 123456},
+					{nickname: "chessome", steamid: 123454},
+					{nickname: "Turtlefly_", steamid: 123426},
+					{nickname: "Niso", steamid: 644456},
+					{nickname: "Mayhem", steamid: 773532},
+					{nickname: "Regn", steamid: 073532},
+					{nickname: "Nilsen", steamid: 573532},
+					{nickname: "Molle2k", steamid: 732532},
+					{nickname: "TheBait", steamid: 986441},
+					{nickname: "DMK", steamid: 1735320},
+					{nickname: "Halio", steamid: 9864411},
 				],
 				lockTeams: false,
 				team1: [],
 				team2: [],
 				captain1: '',
 				captain2: '',
-				mapPick: " ... ",
+				mapPick: null,
 				maps: [
 					"dust","inferno","cache","mirage","vertigo"
 				],
 			 },
 			mounted: function() {
+				
+		
 				this.placeInTeams();
 			},
 			methods: {
@@ -169,7 +180,3 @@ get_header(); ?>
 			 }
 		})
 	</script>
-
-
-<?php get_sidebar(); ?>
-<?php get_footer(); ?>

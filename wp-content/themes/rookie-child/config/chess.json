@@ -1,0 +1,68 @@
+{
+    "matchid": "SCRIM",
+    "num_maps": 1,
+    "players_per_team": 5,
+    "min_players_to_ready": 10,
+    "min_spectators_to_ready": 0,
+    "skip_veto": false,
+    "veto_first": "team1",
+    "side_type": "standard",
+
+    "spectators": {
+            "players":
+            [
+                    "STEAM_1:1:.....",
+                    "STEAM_1:1:.....",
+                    "STEAM_1:1:....."
+            ]
+    },
+
+    "maplist":
+    [
+            "de_cache",
+            "de_dust2",
+            "de_inferno",
+            "de_mirage",
+            "de_nuke",
+            "de_overpass",
+            "de_train"
+    ],
+
+    "favored_percentage_team1": 65,
+    "favored_percentage_text": "BitSector BETS",
+
+    "team1": {
+            "name": "BitSector",
+            "tag": "D.G",
+            "flag": "NO",
+            "logo": "steu",
+            "players":
+            {
+                    "STEAM_1:1:....." : "",
+                    "STEAM_1:1:....." : "",
+                    "STEAM_1:1:....." : "",
+                    "STEAM_1:1:....." : "",
+                    "STEAM_1:1:....." : ""
+            }
+    },
+
+    "team2": {
+            "name": "The Baiters",
+            "tag": "The Baiters",
+            "flag": "NO",
+            "logo": "stus",
+            "players":
+            [
+                    "STEAM_1:1:393800",
+                    "STEAM_1:0:78189799",
+                    "STEAM_1:0:142982",
+                    "STEAM_1:1:.....",
+                    "STEAM_1:1:....."
+            ]
+    },
+
+    "cvars": {
+            "hostname": "BitSector 3 League",
+            "mp_halftime_duration": "10"
+    }
+}
