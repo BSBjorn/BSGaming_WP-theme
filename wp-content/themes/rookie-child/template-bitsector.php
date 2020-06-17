@@ -37,13 +37,14 @@ foreach($aUsers as $aUser) {
 		array_push($onlineUsers, $userMeta);
 	}
 }
+ 
 get_header(); ?>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
 	<div id="primary" class="content-area content-area-<?php echo rookie_get_sidebar_setting(); ?>-sidebar">
 		<main id="main" class="site-main" role="main">
+		
 		<div id="app">
             <div class="columns">
 				<div class="column">
@@ -65,16 +66,16 @@ get_header(); ?>
 		
 		<div class="columns">
 			<div class="column">
-				<h4 class="is-size-5 mb-2">Team {{captain1}}</h4>
+				<h4 class="is-size-5 mb-2">Team 1: {{config.team1.name}}</h4>
 				<ul v-for="player in team1">
 					<li :class="{captain: player.nickname == captain1}">{{player.nickname}}</li>
 				</ul>
 			</div>
 
 			<div class="column">
-				<h4 class="is-size-5 mb-2">Team {{captain2}}</h4>
+				<h4 class="is-size-5 mb-2">Team 2: {{config.team2.name}}</h4>
 				<ul v-for="player in team2">
-					<li>{{player.nickname}}</li>
+					<li :class="{captain: player.nickname == captain2}">{{player.nickname}}</li>
 				</ul>
 			</div>	
 		</div>
@@ -95,13 +96,23 @@ get_header(); ?>
 			</div>
 			<div class="column" v-if="mapPick">
 				<h5>Map will be <span class="has-text-primary">{{mapPick}}</span></h5>
-				<button class="my-2">Start Server</button>
+				<button class="my-2" @click="serverStarted = true">Start Server</button>
+			</div>
+		</div>
+		<div class="columns" v-if="serverStarted">
+			<div class="column">
+				<button class="is-large is-primary">CONNECT TO SERVER</button>
 			</div>
 		</div>
 		
 		</div><!-- #app -->
 		</main><!-- #main -->
 	</div><!-- #primary -->
+
+
+<pre>
+	<?php include('config/chess.json') ?> 
+</pre>
 
 
 
@@ -115,6 +126,7 @@ get_header(); ?>
 			el: '#app',
 			data: {
 				message: 'Hello Vue!',
+				config: <?php include('config/chess.json') ?>,
 				users: <?php echo json_encode($onlineUsers); ?>,
 				players: [
 					{nickname: "B-King", steamid: 123456},
@@ -127,7 +139,6 @@ get_header(); ?>
 					{nickname: "Molle2k", steamid: 732532},
 					{nickname: "TheBait", steamid: 986441},
 					{nickname: "DMK", steamid: 1735320},
-					{nickname: "Halio", steamid: 9864411},
 				],
 				lockTeams: false,
 				team1: [],
@@ -135,13 +146,11 @@ get_header(); ?>
 				captain1: '',
 				captain2: '',
 				mapPick: null,
-				maps: [
-					"dust","inferno","cache","mirage","vertigo"
-				],
+				maps: null,
+				serverStarted: false,
 			 },
 			mounted: function() {
-				
-		
+				this.maps = this.config.maplist;
 				this.placeInTeams();
 			},
 			methods: {

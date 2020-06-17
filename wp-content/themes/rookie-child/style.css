@@ -6,3 +6,8 @@ Template: rookie
 .site-hgroup {
     text-align: right;
 }
+
+.captain {
+    font-weight: bold;
+    font-size: 112%;
+}
