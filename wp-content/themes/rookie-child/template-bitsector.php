@@ -50,9 +50,9 @@ get_header(); ?>
 				<div class="column">
 					<h1 class="mb-4 is-size-3">SCRIM 5V5</h1>
 					
-					<button class="my-4 mr-2" v-if="lockTeams == false" @click="shuffle(players)">Shuffle</button>
-					<button v-if="lockTeams == false" class="my-4 mr-2" @click="lockTeams = !lockTeams">Lock Teams</button>
-					<button v-else class="my-4 mr-2" @click="lockTeams = !lockTeams">Unlock Teams</button>
+					<button class="button is-primary my-4 mr-2" v-if="lockTeams == false" @click="shuffle(players)">Shuffle</button>
+					<button v-if="lockTeams == false" class="button my-4 mr-2 is-success" @click="lockTeams = !lockTeams">Lock Teams</button>
+					<button v-else class="button is-warning my-4 mr-2" @click="lockTeams = !lockTeams">Unlock Teams</button>
 
 				</div>
 				<div class="column">
@@ -96,12 +96,12 @@ get_header(); ?>
 			</div>
 			<div class="column" v-if="mapPick">
 				<h5>Map will be <span class="has-text-primary">{{mapPick}}</span></h5>
-				<button class="my-2" @click="serverStarted = true">Start Server</button>
+				<button class="my-2 button is-info" @click="startServer()">Start Server</button>
 			</div>
 		</div>
 		<div class="columns" v-if="serverStarted">
 			<div class="column">
-				<button class="is-large is-primary">CONNECT TO SERVER</button>
+				<button class="button is-large is-success">CONNECT TO SERVER</button>
 			</div>
 		</div>
 		
@@ -154,6 +154,10 @@ get_header(); ?>
 				this.placeInTeams();
 			},
 			methods: {
+				startServer: function() {
+					setTimeout(() => this.serverStarted = true, 5000);
+				},
+
 				placeInTeams: function() {
 					this.team1 = [];
 					this.team2 = [];
